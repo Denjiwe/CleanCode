@@ -27,16 +27,17 @@ class Order {
         return total;
     }
     getTotalShipping() {
-        let shipping = 0;
+        let volume = 0;
+        let density = 0;
         for (const orderItem of this.orderItems) {
             const item = orderItem.item;
             if (!item)
                 continue;
-            const volume = item.getVolume(item.height, item.length, item.width);
-            const density = item.getDensity(item.weight, volume);
-            shipping += new Shipping_1.default(1000, volume, density).getShipping();
+            volume += item.getVolume(item.height, item.length, item.width);
+            density += item.getDensity(item.weight, volume);
         }
-        return shipping;
+        const shipping = new Shipping_1.default(1000, volume, density).getShipping();
+        return shipping > 10 ? shipping : 10;
     }
 }
 exports.default = Order;

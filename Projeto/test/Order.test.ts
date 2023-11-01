@@ -46,5 +46,5 @@ test("Should try to create an order with shipping", function () {
     let cpf = "839.435.452-10";
     const order = new Order(cpf);
     order.addItem(new Item(1, "Música", "Guitarra", 30, 50, 30, 10, 0.3), 3);
-    expect(order.getTotalShipping()).toBe(3);
+    expect(order.getTotalShipping()).toBe(10);
 });

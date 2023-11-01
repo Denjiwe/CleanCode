@@ -32,14 +32,16 @@ export default class Order {
     }
 
     getTotalShipping(): number {
-        let shipping = 0;
+        let volume = 0;
+        let density = 0;
         for (const orderItem of this.orderItems) {
             const item = orderItem.item;
             if (!item) continue;
-            const volume = item.getVolume(item.height, item.length, item.width);
-            const density = item.getDensity(item.weight, volume);
-            shipping += new Shipping(1000, volume, density).getShipping();
+            volume += item.getVolume(item.height, item.length, item.width);
+            density += item.getDensity(item.weight, volume);
         }
-        return shipping;
+        const shipping = new Shipping(1000, volume, density).getShipping();
+        
+        return shipping > 10 ? shipping : 10;
     }
 }
