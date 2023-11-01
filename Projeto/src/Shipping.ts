@@ -3,10 +3,6 @@ export default class Shipping {
     }
 
     getShipping(): number {
-    }
-
-
-    private calculateDensity(weight: number, volume: number): number {
-        return weight/volume;
+      return this.distance * this.volume * (this.density/100);
     }
 }

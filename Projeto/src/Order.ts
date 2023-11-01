@@ -15,7 +15,7 @@ export default class Order {
     }
 
     addItem(item: Item, quantity: number): void {
-        this.orderItems.push(new OrderItem(item.idItem, item.price, quantity));
+        this.orderItems.push(new OrderItem(item.idItem, item.price, quantity, item));
     }
 
     addCoupon(coupon: Coupon) {
@@ -35,7 +35,10 @@ export default class Order {
         let shipping = 0;
         for (const orderItem of this.orderItems) {
             const item = orderItem.item;
-            shipping += new Shipping(1000, item.getVolume(), item.getDensity()).getShipping();
+            if (!item) continue;
+            const volume = item.getVolume(item.height, item.length, item.width);
+            const density = item.getDensity(item.weight, volume);
+            shipping += new Shipping(1000, volume, density).getShipping();
         }
         return shipping;
     }

@@ -42,8 +42,9 @@ test("Should try to create an order with an expired discount ticket", function (
     expect(() => order.addCoupon(new Coupon("VALE20", 20, new Date('2022-01-01')))).toThrow(new Error("Coupon expired"));
 });
 
-test("Should try to create an order that is cheaper than R$10", function () {
+test("Should try to create an order with shipping", function () {
     let cpf = "839.435.452-10";
     const order = new Order(cpf);
-    expect(() => order.getTotal()).toThrow(new Error("Order must have at least R$10"));
+    order.addItem(new Item(1, "Música", "Guitarra", 30, 50, 30, 10, 0.3), 3);
+    expect(order.getTotalShipping()).toBe(3);
 });
