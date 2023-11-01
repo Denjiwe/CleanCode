@@ -1,9 +1,13 @@
 export default class Coupon {
-    constructor (readonly code: string, readonly percentage: number, readonly validOn: Date) {
-        if (this.isExpired(this.validOn)) throw new Error("Coupon expired");
+    constructor (readonly code: string, readonly percentage: number, readonly expireDate?: Date) {
     }
 
-    private isExpired(date: Date) {
-        return date < new Date();
+    isValid(today: Date = new Date()) {
+      if (!this.expireDate) return true;
+      return this.expireDate.getTime() >= today.getTime();
+    }
+
+    isExpired(today: Date = new Date()) {
+      return !this.isValid(today);
     }
 }

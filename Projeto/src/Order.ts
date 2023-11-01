@@ -9,7 +9,7 @@ export default class Order {
     orderItems: OrderItem[];
     coupon?: Coupon;
 
-    constructor (cpf: string) {
+    constructor (cpf: string, readonly date: Date = new Date()) {
         this.cpf = new Cpf(cpf);
         this.orderItems = [];
     }
@@ -19,7 +19,8 @@ export default class Order {
     }
 
     addCoupon(coupon: Coupon) {
-        this.coupon = coupon;
+      if (coupon.isExpired()) return;
+      this.coupon = coupon;
     }
 
     getTotal(): number {

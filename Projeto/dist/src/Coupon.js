@@ -1,15 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Coupon {
-    constructor(code, percentage, validOn) {
+    constructor(code, percentage, expireDate) {
         this.code = code;
         this.percentage = percentage;
-        this.validOn = validOn;
-        if (this.isExpired(this.validOn))
-            throw new Error("Coupon expired");
+        this.expireDate = expireDate;
     }
-    isExpired(date) {
-        return date < new Date();
+    isValid(today = new Date()) {
+        if (!this.expireDate)
+            return true;
+        return this.expireDate.getTime() >= today.getTime();
+    }
+    isExpired(today = new Date()) {
+        return !this.isValid(today);
     }
 }
 exports.default = Coupon;

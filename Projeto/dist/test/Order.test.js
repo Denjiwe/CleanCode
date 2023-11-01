@@ -37,9 +37,11 @@ test("Should create an order with 3 items and a discount ticket", function () {
 });
 test("Should try to create an order with an expired discount ticket", function () {
     let cpf = "839.435.452-10";
-    const order = new Order_1.default(cpf);
+    const order = new Order_1.default(cpf, new Date('2023-01-01'));
     order.addItem(new Item_1.default(1, "Música", "Guitarra", 30, 50, 30, 10, 0.3), 3);
-    expect(() => order.addCoupon(new Coupon_1.default("VALE20", 20, new Date('2022-01-01')))).toThrow(new Error("Coupon expired"));
+    order.addCoupon(new Coupon_1.default("VALE20", 20, new Date('2022-01-01')));
+    const total = order.getTotal();
+    expect(total).toBe(90);
 });
 test("Should try to create an order with shipping", function () {
     let cpf = "839.435.452-10";

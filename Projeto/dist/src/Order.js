@@ -7,7 +7,8 @@ const Cpf_1 = __importDefault(require("./Cpf"));
 const OrderItem_1 = __importDefault(require("./OrderItem"));
 const Shipping_1 = __importDefault(require("./Shipping"));
 class Order {
-    constructor(cpf) {
+    constructor(cpf, date = new Date()) {
+        this.date = date;
         this.cpf = new Cpf_1.default(cpf);
         this.orderItems = [];
     }
@@ -15,6 +16,8 @@ class Order {
         this.orderItems.push(new OrderItem_1.default(item.idItem, item.price, quantity, item));
     }
     addCoupon(coupon) {
+        if (coupon.isExpired())
+            return;
         this.coupon = coupon;
     }
     getTotal() {
