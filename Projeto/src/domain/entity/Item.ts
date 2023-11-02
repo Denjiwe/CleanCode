@@ -4,10 +4,10 @@ export default class Item {
         readonly category: string, 
         readonly description: string, 
         readonly price: number, 
-        readonly height: number,
-        readonly width: number,
-        readonly length: number,
-        readonly weight: number
+        readonly height: number = 0,
+        readonly width: number = 0,
+        readonly length: number = 0,
+        readonly weight: number = 0
         ) {
     }
 

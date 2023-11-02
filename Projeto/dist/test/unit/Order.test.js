@@ -20,18 +20,18 @@ test("Should attempt to create an empty order with an invalid CPF", function () 
 test("Should create an order with 3 items", function () {
     let cpf = "839.435.452-10";
     const order = new Order_1.default(cpf);
-    order.addItem(new Item_1.default(1, "Música", "Guitarra", 30, 50, 30, 10, 0.3), 3);
-    order.addItem(new Item_1.default(1, "Vídeo", "DVD", 50, 20, 20, 3, 0.1), 1);
-    order.addItem(new Item_1.default(1, "Vídeo", "VHS", 10, 20, 20, 3, 0.1), 2);
+    order.addItem(new Item_1.default(1, "Música", "Guitarra", 30), 3);
+    order.addItem(new Item_1.default(1, "Vídeo", "DVD", 50, 20), 1);
+    order.addItem(new Item_1.default(1, "Vídeo", "VHS", 10, 20), 2);
     const total = order.getTotal();
     expect(total).toBe(160);
 });
 test("Should create an order with 3 items and a discount ticket", function () {
     let cpf = "839.435.452-10";
     const order = new Order_1.default(cpf);
-    order.addItem(new Item_1.default(1, "Música", "Guitarra", 30, 50, 30, 10, 0.3), 3);
-    order.addItem(new Item_1.default(1, "Vídeo", "DVD", 50, 20, 20, 3, 0.1), 1);
-    order.addItem(new Item_1.default(1, "Vídeo", "VHS", 10, 20, 20, 3, 0.1), 2);
+    order.addItem(new Item_1.default(1, "Música", "Guitarra", 30), 3);
+    order.addItem(new Item_1.default(1, "Vídeo", "DVD", 50), 1);
+    order.addItem(new Item_1.default(1, "Vídeo", "VHS", 10), 2);
     order.addCoupon(new Coupon_1.default("VALE20", 20));
     const total = order.getTotal();
     expect(total).toBe(128);
@@ -39,7 +39,7 @@ test("Should create an order with 3 items and a discount ticket", function () {
 test("Should try to create an order with an expired discount ticket", function () {
     let cpf = "839.435.452-10";
     const order = new Order_1.default(cpf, new Date('2023-01-01'));
-    order.addItem(new Item_1.default(1, "Música", "Guitarra", 30, 50, 30, 10, 0.3), 3);
+    order.addItem(new Item_1.default(1, "Música", "Guitarra", 30), 3);
     order.addCoupon(new Coupon_1.default("VALE20", 20, new Date('2022-01-01')));
     const total = order.getTotal();
     expect(total).toBe(90);

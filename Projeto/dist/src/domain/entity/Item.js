@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Item {
-    constructor(idItem, category, description, price, height, width, length, weight) {
+    constructor(idItem, category, description, price, height = 0, width = 0, length = 0, weight = 0) {
         this.idItem = idItem;
         this.category = category;
         this.description = description;

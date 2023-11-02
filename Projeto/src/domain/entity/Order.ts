@@ -27,16 +27,17 @@ export default class Order {
         this.coupon = coupon;
     }
 
+    getFreight(): number {
+        return this.freight;
+    }
+
     getTotal(): number {
         let total = 0;
         for (const item of this.orderItems) {
             total += item.getTotal();
         }
-        if(this.coupon) total -= this.coupon.calculateDiscount(total);
+        if(this.coupon) total -= this.coupon.calculateDiscount(total, this.date);
+        total += this.getFreight();
         return total;
-    }
-
-    getFreight(): number {
-        return this.freight;
     }
 }

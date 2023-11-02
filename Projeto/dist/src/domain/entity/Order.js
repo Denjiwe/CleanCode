@@ -23,17 +23,18 @@ class Order {
             return;
         this.coupon = coupon;
     }
+    getFreight() {
+        return this.freight;
+    }
     getTotal() {
         let total = 0;
         for (const item of this.orderItems) {
             total += item.getTotal();
         }
         if (this.coupon)
-            total -= this.coupon.calculateDiscount(total);
+            total -= this.coupon.calculateDiscount(total, this.date);
+        total += this.getFreight();
         return total;
-    }
-    getFreight() {
-        return this.freight;
     }
 }
 exports.default = Order;
