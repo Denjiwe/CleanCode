@@ -2,25 +2,29 @@ import Cpf from "./Cpf";
 import Item from "./Item";
 import OrderItem from "./OrderItem";
 import Coupon from "./Coupon";
-import Shipping from "./Shipping";
+import FreightCalculator from "./FreightCalculator";
+import DefaultFreightCalculator from "./DefaultFreightCalculator";
 
 export default class Order {
     cpf: Cpf;
-    orderItems: OrderItem[];
+    private orderItems: OrderItem[];
     coupon?: Coupon;
+    private freight: number;
 
-    constructor (cpf: string, readonly date: Date = new Date()) {
+    constructor (cpf: string, readonly date: Date = new Date(), readonly freightCalculator: FreightCalculator = new DefaultFreightCalculator()) {
         this.cpf = new Cpf(cpf);
         this.orderItems = [];
+        this.freight = 0;
     }
 
     addItem(item: Item, quantity: number): void {
+        this.freight += this.freightCalculator.calculate(item) * quantity;
         this.orderItems.push(new OrderItem(item.idItem, item.price, quantity, item));
     }
 
     addCoupon(coupon: Coupon) {
-      if (coupon.isExpired()) return;
-      this.coupon = coupon;
+        if (coupon.isExpired(this.date)) return;
+        this.coupon = coupon;
     }
 
     getTotal(): number {
@@ -28,19 +32,11 @@ export default class Order {
         for (const item of this.orderItems) {
             total += item.getTotal();
         }
-        if(this.coupon) total -= (total * this.coupon.percentage) / 100;
+        if(this.coupon) total -= this.coupon.calculateDiscount(total);
         return total;
     }
 
-    getTotalShipping(): number {
-        let shipping = 0;
-        for (const orderItem of this.orderItems) {
-            const item = orderItem.item;
-            if (!item) continue;
-            const volume = item.getVolume(item.height, item.length, item.width);
-            const density = item.getDensity(item.weight, volume);
-            shipping += new Shipping(1000, volume, density).getShipping();
-        }
-        return shipping;
+    getFreight(): number {
+        return this.freight;
     }
 }

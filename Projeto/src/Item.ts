@@ -11,11 +11,11 @@ export default class Item {
         ) {
     }
 
-    getVolume(height: number, length: number, width: number): number {
-        return (height/100) * (length/100) * (width/100);
+    getVolume(): number {
+        return (this.height/100) * (this.length/100) * (this.width/100);
     }
 
-    getDensity(weight: number, volume: number): number {
-        return weight/volume;
+    getDensity(): number {
+        return this.weight/this.getVolume();
     }
 }

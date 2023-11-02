@@ -16,3 +16,8 @@ test("Should try create an expired coupon", () => {
     const isExpired = coupon.isExpired(today);
     expect(isExpired).toBeTruthy();
 });
+test("Should create a valid coupon and calculate discount", () => {
+    const coupon = new Coupon_1.default("VALE20", 20);
+    const discount = coupon.calculateDiscount(1000);
+    expect(discount).toBe(200);
+});

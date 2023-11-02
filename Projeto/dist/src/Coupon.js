@@ -14,5 +14,10 @@ class Coupon {
     isExpired(today = new Date()) {
         return !this.isValid(today);
     }
+    calculateDiscount(amount, today = new Date()) {
+        if (this.isExpired(today))
+            return 0;
+        return amount * (this.percentage / 100);
+    }
 }
 exports.default = Coupon;
