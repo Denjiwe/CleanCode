@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Item {
-    constructor(idItem, category, description, price, height, width, length, weight) {
+    constructor(idItem, category, description, price, height = 0, width = 0, length = 0, weight = 0) {
         this.idItem = idItem;
         this.category = category;
         this.description = description;
@@ -11,11 +11,11 @@ class Item {
         this.length = length;
         this.weight = weight;
     }
-    getVolume(height, length, width) {
-        return (height / 100) * (length / 100) * (width / 100);
+    getVolume() {
+        return (this.height / 100) * (this.length / 100) * (this.width / 100);
     }
-    getDensity(weight, volume) {
-        return weight / volume;
+    getDensity() {
+        return this.weight / this.getVolume();
     }
 }
 exports.default = Item;

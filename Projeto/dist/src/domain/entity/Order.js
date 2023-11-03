@@ -5,17 +5,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Cpf_1 = __importDefault(require("./Cpf"));
 const OrderItem_1 = __importDefault(require("./OrderItem"));
-const Shipping_1 = __importDefault(require("./Shipping"));
+const DefaultFreightCalculator_1 = __importDefault(require("./DefaultFreightCalculator"));
 class Order {
-    constructor(cpf) {
+    constructor(cpf, date = new Date(), freightCalculator = new DefaultFreightCalculator_1.default()) {
+        this.date = date;
+        this.freightCalculator = freightCalculator;
         this.cpf = new Cpf_1.default(cpf);
         this.orderItems = [];
+        this.freight = 0;
     }
     addItem(item, quantity) {
+        this.freight += this.freightCalculator.calculate(item) * quantity;
         this.orderItems.push(new OrderItem_1.default(item.idItem, item.price, quantity, item));
     }
     addCoupon(coupon) {
+        if (coupon.isExpired(this.date))
+            return;
         this.coupon = coupon;
+    }
+    getFreight() {
+        return this.freight;
     }
     getTotal() {
         let total = 0;
@@ -23,21 +32,9 @@ class Order {
             total += item.getTotal();
         }
         if (this.coupon)
-            total -= (total * this.coupon.percentage) / 100;
+            total -= this.coupon.calculateDiscount(total, this.date);
+        total += this.getFreight();
         return total;
-    }
-    getTotalShipping() {
-        let volume = 0;
-        let density = 0;
-        for (const orderItem of this.orderItems) {
-            const item = orderItem.item;
-            if (!item)
-                continue;
-            volume += item.getVolume(item.height, item.length, item.width);
-            density += item.getDensity(item.weight, volume);
-        }
-        const shipping = new Shipping_1.default(1000, volume, density).getShipping();
-        return shipping > 10 ? shipping : 10;
     }
 }
 exports.default = Order;
