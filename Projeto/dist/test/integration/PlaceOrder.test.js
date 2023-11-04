@@ -55,3 +55,22 @@ test("Should place an order with freight", function () {
         expect(output.total).toBe(6350);
     });
 });
+test("Should place an order with a code", function () {
+    return __awaiter(this, void 0, void 0, function* () {
+        const itemRepository = new ItemRepositoryMemory_1.default();
+        const couponRepository = new CouponRepositoryMemory_1.default();
+        const orderRepository = new OrderRepositoryMemory_1.default();
+        const placeOrder = new PlaceOrder_1.default(itemRepository, orderRepository, couponRepository);
+        const input = {
+            cpf: "839.435.452-10",
+            orderItems: [
+                { idItem: 4, quantity: 1 },
+                { idItem: 5, quantity: 1 },
+                { idItem: 6, quantity: 3 },
+            ],
+            date: new Date("2023-09-02"),
+        };
+        const output = yield placeOrder.execute(input);
+        expect(output.code).toBe("202300000001");
+    });
+});

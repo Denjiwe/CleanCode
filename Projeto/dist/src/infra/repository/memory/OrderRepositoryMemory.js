@@ -9,5 +9,8 @@ class OrderRepositoryMemory {
         this.orders.push(order);
         return Promise.resolve();
     }
+    count() {
+        return Promise.resolve(this.orders.length);
+    }
 }
 exports.default = OrderRepositoryMemory;
