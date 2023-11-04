@@ -8,6 +8,12 @@ class PgPromiseConnectionAdapter {
     constructor() {
         this.pgp = (0, pg_promise_1.default)()("postgresql://postgres:12345678@localhost:5432/postgres");
     }
+    static getInstance() {
+        if (!PgPromiseConnectionAdapter.instance) {
+            PgPromiseConnectionAdapter.instance = new PgPromiseConnectionAdapter();
+        }
+        return PgPromiseConnectionAdapter.instance;
+    }
     query(statement, params) {
         return this.pgp.query(statement, params);
     }

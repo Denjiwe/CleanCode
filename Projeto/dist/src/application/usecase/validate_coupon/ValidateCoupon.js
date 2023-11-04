@@ -8,15 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const PgPromiseConnectionAdapter_1 = __importDefault(require("../../src/infra/database/PgPromiseConnectionAdapter"));
-test("Should connect to the database", function () {
-    return __awaiter(this, void 0, void 0, function* () {
-        const connection = PgPromiseConnectionAdapter_1.default.getInstance();
-        const itemsData = yield connection.query("select * from ccca.item", []);
-        expect(itemsData).toHaveLength(6);
-    });
-});
+class ValidateCoupon {
+    constructor(couponRepository) {
+        this.couponRepository = couponRepository;
+    }
+    execute(code) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const coupon = yield this.couponRepository.findByCode(code);
+            if (!coupon)
+                throw new Error("Coupon not found");
+            return coupon.isValid();
+        });
+    }
+}
+exports.default = ValidateCoupon;

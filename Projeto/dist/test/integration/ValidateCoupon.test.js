@@ -12,23 +12,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const SimulateFreight_1 = __importDefault(require("../../src/application/usecase/simulate_freight/SimulateFreight"));
-const SimulateFreightInput_1 = __importDefault(require("../../src/application/usecase/simulate_freight/SimulateFreightInput"));
-const DefaultFreightCalculator_1 = __importDefault(require("../../src/domain/entity/DefaultFreightCalculator"));
+const ValidateCoupon_1 = __importDefault(require("../../src/application/usecase/validate_coupon/ValidateCoupon"));
 const PgPromiseConnectionAdapter_1 = __importDefault(require("../../src/infra/database/PgPromiseConnectionAdapter"));
-const ItemRepositoryDatabase_1 = __importDefault(require("../../src/infra/repository/database/ItemRepositoryDatabase"));
-test("Should simulate a freight", function () {
+const CouponRepositoryDatabase_1 = __importDefault(require("../../src/infra/repository/database/CouponRepositoryDatabase"));
+test("Should validate a coupon", function () {
     return __awaiter(this, void 0, void 0, function* () {
         const connection = PgPromiseConnectionAdapter_1.default.getInstance();
-        const itemRepository = new ItemRepositoryDatabase_1.default(connection);
-        const freightCalculator = new DefaultFreightCalculator_1.default();
-        const simulateFreight = new SimulateFreight_1.default(itemRepository, freightCalculator);
-        const input = new SimulateFreightInput_1.default([
-            { idItem: 4, quantity: 1 },
-            { idItem: 5, quantity: 1 },
-            { idItem: 6, quantity: 3 },
-        ]);
-        const output = yield simulateFreight.execute(input);
-        expect(output.amount).toBe(260);
+        const couponRepository = new CouponRepositoryDatabase_1.default(connection);
+        const validateCoupon = new ValidateCoupon_1.default(couponRepository);
+        const isValid = yield validateCoupon.execute("VALE20");
+        expect(isValid).toBeTruthy();
     });
 });

@@ -1,4 +1,4 @@
-import PlaceOrder from "../../src/application/usecase/PlaceOrder";
+import PlaceOrder from "../../src/application/usecase/place_order/PlaceOrder";
 import PgPromiseConnectionAdapter from "../../src/infra/database/PgPromiseConnectionAdapter";
 import CouponRepositoryDatabase from "../../src/infra/repository/database/CouponRepositoryDatabase";
 import ItemRepositoryDatabase from "../../src/infra/repository/database/ItemRepositoryDatabase";
@@ -8,7 +8,7 @@ let placeOrder: PlaceOrder;
 let orderRepository: OrderRepositoryDatabase;
 
 beforeEach(() => {
-  const connection = new PgPromiseConnectionAdapter();
+  const connection = PgPromiseConnectionAdapter.getInstance();
   const itemRepository = new ItemRepositoryDatabase(connection);
   const couponRepository = new CouponRepositoryDatabase(connection);
   orderRepository = new OrderRepositoryDatabase(connection);

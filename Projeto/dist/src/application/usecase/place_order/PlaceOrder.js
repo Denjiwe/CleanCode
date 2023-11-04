@@ -12,9 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Order_1 = __importDefault(require("../../domain/entity/Order"));
+const Order_1 = __importDefault(require("../../../domain/entity/Order"));
 const PlaceOrderOutput_1 = __importDefault(require("./PlaceOrderOutput"));
-const DefaultFreightCalculator_1 = __importDefault(require("../../domain/entity/DefaultFreightCalculator"));
+const DefaultFreightCalculator_1 = __importDefault(require("../../../domain/entity/DefaultFreightCalculator"));
 class PlaceOrder {
     constructor(itemRepository, orderRepository, couponRepository) {
         this.itemRepository = itemRepository;
