@@ -6,13 +6,14 @@
   "scripts": {
     "tsc:init": "tsc --init",
     "build": "tsc",
-    "test": "tsc && jest dist/",
+    "test": "tsc && jest dist/ --forceExit",
     "fast-test": "jest dist/",
     "coverage": "jest dist/ --coverage"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "pg-promise": "^11.5.4",
     "sinon": "^17.0.0",
     "typescript": "^5.2.2"
   },

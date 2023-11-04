@@ -7,7 +7,7 @@ import DefaultFreightCalculator from "./DefaultFreightCalculator";
 import OrderCode from "./OrderCode";
 
 export default class Order {
-    cpf: Cpf;
+    private cpf: Cpf;
     private orderItems: OrderItem[];
     coupon?: Coupon;
     private freight: number;
@@ -36,6 +36,14 @@ export default class Order {
 
     getCode() {
         return this.code.value;
+    }
+
+    getCpf() {
+        return this.cpf.value;
+    }
+
+    getOrderItems() {
+        return this.orderItems;
     }
 
     getTotal(): number {

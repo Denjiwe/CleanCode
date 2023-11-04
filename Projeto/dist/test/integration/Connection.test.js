@@ -8,23 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-class OrderRepositoryMemory {
-    constructor() {
-        this.orders = [];
-        this.orders = [];
-    }
-    save(order) {
-        this.orders.push(order);
-        return Promise.resolve();
-    }
-    count() {
-        return Promise.resolve(this.orders.length);
-    }
-    clear() {
-        return __awaiter(this, void 0, void 0, function* () {
-            this.orders = [];
-        });
-    }
-}
-exports.default = OrderRepositoryMemory;
+const PgPromiseConnectionAdapter_1 = __importDefault(require("../../src/infra/database/PgPromiseConnectionAdapter"));
+test("Should connect to the database", function () {
+    return __awaiter(this, void 0, void 0, function* () {
+        const connection = new PgPromiseConnectionAdapter_1.default();
+        const itemsData = yield connection.query("select * from ccca.item", []);
+        expect(itemsData).toHaveLength(6);
+    });
+});

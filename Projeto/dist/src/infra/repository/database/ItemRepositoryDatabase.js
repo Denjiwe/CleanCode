@@ -8,23 +8,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-class OrderRepositoryMemory {
-    constructor() {
-        this.orders = [];
-        this.orders = [];
+const Item_1 = __importDefault(require("../../../domain/entity/Item"));
+class ItemRepositoryDatabase {
+    constructor(connection) {
+        this.connection = connection;
     }
-    save(order) {
-        this.orders.push(order);
-        return Promise.resolve();
-    }
-    count() {
-        return Promise.resolve(this.orders.length);
-    }
-    clear() {
+    findById(idItem) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.orders = [];
+            const [itemData] = yield this.connection.query("select * from ccca.item where id_item = $1", [idItem]);
+            if (!itemData)
+                return;
+            return new Item_1.default(itemData.id_item, itemData.category, itemData.description, itemData.price, itemData.height, itemData.width, itemData.length, itemData.weight);
         });
     }
 }
-exports.default = OrderRepositoryMemory;
+exports.default = ItemRepositoryDatabase;

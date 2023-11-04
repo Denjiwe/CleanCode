@@ -32,6 +32,12 @@ class Order {
     getCode() {
         return this.code.value;
     }
+    getCpf() {
+        return this.cpf.value;
+    }
+    getOrderItems() {
+        return this.orderItems;
+    }
     getTotal() {
         let total = 0;
         for (const item of this.orderItems) {
