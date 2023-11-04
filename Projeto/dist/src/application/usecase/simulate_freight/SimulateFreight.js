@@ -12,34 +12,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Order_1 = __importDefault(require("../../domain/entity/Order"));
-const PlaceOrderOutput_1 = __importDefault(require("./PlaceOrderOutput"));
-class PlaceOrder {
-    constructor(itemRepository, orderRepository, couponRepository) {
+const SimulateFreightOutput_1 = __importDefault(require("./SimulateFreightOutput"));
+class SimulateFreight {
+    constructor(itemRepository, freightCalculator) {
         this.itemRepository = itemRepository;
-        this.orderRepository = orderRepository;
-        this.couponRepository = couponRepository;
+        this.freightCalculator = freightCalculator;
     }
     execute(input) {
         return __awaiter(this, void 0, void 0, function* () {
-            const order = new Order_1.default(input.cpf, input.date);
-            for (const orderItem of input.orderItems) {
+            let amount = 0;
+            for (const orderItem of input.items) {
                 const item = yield this.itemRepository.findById(orderItem.idItem);
                 if (!item)
                     throw new Error("Item not found");
-                order.addItem(item, orderItem.quantity);
+                amount += this.freightCalculator.calculate(item) * orderItem.quantity;
             }
-            if (input.coupon) {
-                const coupon = yield this.couponRepository.findByCode(input.coupon);
-                if (coupon)
-                    order.addCoupon(coupon);
-            }
-            ;
-            yield this.orderRepository.save(order);
-            const total = order.getTotal();
-            const output = new PlaceOrderOutput_1.default(total);
-            return output;
+            return new SimulateFreightOutput_1.default(amount);
         });
     }
 }
-exports.default = PlaceOrder;
+exports.default = SimulateFreight;

@@ -8,23 +8,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-class OrderRepositoryMemory {
-    constructor() {
-        this.orders = [];
-        this.orders = [];
+const Coupon_1 = __importDefault(require("../../../domain/entity/Coupon"));
+class CouponRepositoryDatabase {
+    constructor(connection) {
+        this.connection = connection;
     }
-    save(order) {
-        this.orders.push(order);
-        return Promise.resolve();
-    }
-    count() {
-        return Promise.resolve(this.orders.length);
-    }
-    clear() {
+    findByCode(code) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.orders = [];
+            const [couponData] = yield this.connection.query("select * from ccca.coupon where code = $1", [code]);
+            if (!couponData)
+                return;
+            return new Coupon_1.default(couponData.code, couponData.percentage, couponData.expire_date);
         });
     }
 }
-exports.default = OrderRepositoryMemory;
+exports.default = CouponRepositoryDatabase;
