@@ -8,32 +8,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-class OrderRepositoryMemory {
-    constructor() {
-        this.orders = [];
-        this.orders = [];
+const GetOrderOutput_1 = __importDefault(require("./GetOrderOutput"));
+class GetOrder {
+    constructor(connection) {
+        this.connection = connection;
     }
-    findAll() {
-        return Promise.resolve(this.orders);
-    }
-    save(order) {
-        this.orders.push(order);
-        return Promise.resolve();
-    }
-    get(code) {
-        const order = this.orders.find(order => order.getCode() === code);
-        if (!order)
-            throw new Error("Order not found");
-        return Promise.resolve(order);
-    }
-    count() {
-        return Promise.resolve(this.orders.length);
-    }
-    clear() {
+    execute(code) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.orders = [];
+            const [orderData] = yield this.connection.query("select code, total::float from ccca.order where code = $1", [code]);
+            const getOrderOutput = new GetOrderOutput_1.default(orderData.code, orderData.total);
+            return getOrderOutput;
         });
     }
 }
-exports.default = OrderRepositoryMemory;
+exports.default = GetOrder;

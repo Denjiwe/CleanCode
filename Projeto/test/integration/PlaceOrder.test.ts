@@ -10,8 +10,8 @@ let orderRepository: OrderRepositoryDatabase;
 beforeEach(() => {
   const connection = PgPromiseConnectionAdapter.getInstance();
   orderRepository = new OrderRepositoryDatabase(connection);
-  const repositoryFactory = new DatabaseRepositoryFactory();
-  // const repositoryFactory = new MemoryRepositoryFactory();
+  // const repositoryFactory = new DatabaseRepositoryFactory();
+  const repositoryFactory = new MemoryRepositoryFactory();
   placeOrder = new PlaceOrder(repositoryFactory);
 })
 
@@ -58,6 +58,6 @@ test("Should place an order with a code", async function () {
   expect(output.code).toBe("202300000001");
 });
 
-afterEach(async () => {
+afterEach(async function() {
   await orderRepository.clear();
 })

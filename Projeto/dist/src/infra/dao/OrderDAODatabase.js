@@ -9,31 +9,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-class OrderRepositoryMemory {
-    constructor() {
-        this.orders = [];
-        this.orders = [];
-    }
-    findAll() {
-        return Promise.resolve(this.orders);
-    }
-    save(order) {
-        this.orders.push(order);
-        return Promise.resolve();
+class OrderDAODatabase {
+    constructor(connection) {
+        this.connection = connection;
     }
     get(code) {
-        const order = this.orders.find(order => order.getCode() === code);
-        if (!order)
-            throw new Error("Order not found");
-        return Promise.resolve(order);
-    }
-    count() {
-        return Promise.resolve(this.orders.length);
-    }
-    clear() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.orders = [];
+            return yield this.connection.query("select code, total::float from ccca.order where code = $1", [code]);
+        });
+    }
+    findAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.connection.query("select * from ccca.order", []);
         });
     }
 }
-exports.default = OrderRepositoryMemory;
+exports.default = OrderDAODatabase;

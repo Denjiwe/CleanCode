@@ -8,32 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-class OrderRepositoryMemory {
-    constructor() {
-        this.orders = [];
-        this.orders = [];
+const GetOrder_1 = __importDefault(require("../../application/query/get_order/GetOrder"));
+class GetOrderController {
+    constructor(orderDAO) {
+        this.orderDAO = orderDAO;
     }
-    findAll() {
-        return Promise.resolve(this.orders);
-    }
-    save(order) {
-        this.orders.push(order);
-        return Promise.resolve();
-    }
-    get(code) {
-        const order = this.orders.find(order => order.getCode() === code);
-        if (!order)
-            throw new Error("Order not found");
-        return Promise.resolve(order);
-    }
-    count() {
-        return Promise.resolve(this.orders.length);
-    }
-    clear() {
+    execute(params, body) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.orders = [];
+            const getOrder = new GetOrder_1.default(this.orderDAO);
+            return yield getOrder.execute(params.code);
         });
     }
 }
-exports.default = OrderRepositoryMemory;
+exports.default = GetOrderController;

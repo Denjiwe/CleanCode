@@ -13,12 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const PlaceOrder_1 = __importDefault(require("../../application/usecase/place_order/PlaceOrder"));
-const DatabaseRepositoryFactory_1 = __importDefault(require("../factory/DatabaseRepositoryFactory"));
 class PlaceOrderController {
+    constructor(repositoryFactory) {
+        this.repositoryFactory = repositoryFactory;
+    }
     execute(params, body) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repositoryFactory = new DatabaseRepositoryFactory_1.default();
-            const placeOrder = new PlaceOrder_1.default(repositoryFactory);
+            const placeOrder = new PlaceOrder_1.default(this.repositoryFactory);
             const input = body;
             input.date = new Date(input.date);
             return yield placeOrder.execute(input);
