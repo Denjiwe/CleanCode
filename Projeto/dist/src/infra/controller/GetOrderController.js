@@ -12,14 +12,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const GetOrder_1 = __importDefault(require("../../application/usecase/get_order/GetOrder"));
+const GetOrder_1 = __importDefault(require("../../application/query/get_order/GetOrder"));
 class GetOrderController {
-    constructor(repositoryFactory) {
-        this.repositoryFactory = repositoryFactory;
+    constructor(connection) {
+        this.connection = connection;
     }
     execute(params, body) {
         return __awaiter(this, void 0, void 0, function* () {
-            const getOrder = new GetOrder_1.default(this.repositoryFactory);
+            const getOrder = new GetOrder_1.default(this.connection);
             return yield getOrder.execute(params.code);
         });
     }
