@@ -1,5 +1,6 @@
 import GetOrders from "../../../src/application/query/get_orders/GetOrders";
 import PlaceOrder from "../../../src/application/usecase/place_order/PlaceOrder";
+import OrderDAODatabase from "../../../src/infra/dao/OrderDAODatabase";
 import PgPromiseConnectionAdapter from "../../../src/infra/database/PgPromiseConnectionAdapter";
 import DatabaseRepositoryFactory from "../../../src/infra/factory/DatabaseRepositoryFactory";
 import OrderRepositoryDatabase from "../../../src/infra/repository/database/OrderRepositoryDatabase";
@@ -10,10 +11,11 @@ let orderRepository: OrderRepositoryDatabase;
 
 beforeEach(() => {
   const connection = PgPromiseConnectionAdapter.getInstance();
+  const orderDAO = new OrderDAODatabase(connection);
   orderRepository = new OrderRepositoryDatabase(connection);
   const repositoryFactory = new DatabaseRepositoryFactory();
   placeOrder = new PlaceOrder(repositoryFactory);
-  getOrders = new GetOrders(connection);
+  getOrders = new GetOrders(orderDAO);
 });
 
 test("Should get all orders", async function () {

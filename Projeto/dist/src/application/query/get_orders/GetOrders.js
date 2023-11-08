@@ -14,12 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const GetOrdersOutput_1 = __importDefault(require("./GetOrdersOutput"));
 class GetOrders {
-    constructor(connection) {
-        this.connection = connection;
+    constructor(orderDAO) {
+        this.orderDAO = orderDAO;
     }
     execute() {
         return __awaiter(this, void 0, void 0, function* () {
-            const orders = yield this.connection.query("select * from ccca.order", []);
+            const orders = yield this.orderDAO.findAll();
             const getOrdersOutput = new GetOrdersOutput_1.default();
             for (const order of orders) {
                 getOrdersOutput.addOrder(order.code, order.total);
