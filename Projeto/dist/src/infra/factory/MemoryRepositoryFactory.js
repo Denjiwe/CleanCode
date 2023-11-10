@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const CouponRepositoryMemory_1 = __importDefault(require("../repository/memory/CouponRepositoryMemory"));
 const ItemRepositoryMemory_1 = __importDefault(require("../repository/memory/ItemRepositoryMemory"));
 const OrderRepositoryMemory_1 = __importDefault(require("../repository/memory/OrderRepositoryMemory"));
+const StockEntryRepositoryMemory_1 = __importDefault(require("../repository/memory/StockEntryRepositoryMemory"));
 class MemoryRepositoryFactory {
     createItemRepository() {
         return new ItemRepositoryMemory_1.default();
@@ -15,6 +16,9 @@ class MemoryRepositoryFactory {
     }
     createCouponRepository() {
         return new CouponRepositoryMemory_1.default();
+    }
+    createStockEntryRepository() {
+        return new StockEntryRepositoryMemory_1.default();
     }
 }
 exports.default = MemoryRepositoryFactory;

@@ -15,12 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Order_1 = __importDefault(require("../../../domain/entity/Order"));
 const PlaceOrderOutput_1 = __importDefault(require("./PlaceOrderOutput"));
 const DefaultFreightCalculator_1 = __importDefault(require("../../../domain/entity/DefaultFreightCalculator"));
+const StockEntry_1 = __importDefault(require("../../../domain/entity/StockEntry"));
 class PlaceOrder {
     constructor(repositoryFactory) {
         this.repositoryFactory = repositoryFactory;
         this.itemRepository = repositoryFactory.createItemRepository();
         this.orderRepository = repositoryFactory.createOrderRepository();
         this.couponRepository = repositoryFactory.createCouponRepository();
+        this.stockEntryRepository = repositoryFactory.createStockEntryRepository();
     }
     execute(input) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -39,6 +41,9 @@ class PlaceOrder {
             }
             ;
             yield this.orderRepository.save(order);
+            for (const orderItem of input.orderItems) {
+                this.stockEntryRepository.save(new StockEntry_1.default(orderItem.idItem, "out", orderItem.quantity, order.date));
+            }
             const total = order.getTotal();
             const output = new PlaceOrderOutput_1.default(order.getCode(), total);
             return output;
