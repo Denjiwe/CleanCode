@@ -6,13 +6,15 @@ import PlaceOrderInput from "./PlaceOrderInput";
 import PlaceOrderOutput from "./PlaceOrderOutput";
 import DefaultFreightCalculator from "../../../domain/entity/DefaultFreightCalculator";
 import RepositoryFactory from "../../../domain/factory/RepositoryFactory";
+import OrderPlaced from "../../../domain/event/OrderPlaced";
+import Broker from "../../../infra/broker/Broker";
 
 export default class PlaceOrder {
   itemRepository: ItemRepository;
   orderRepository: OrderRepository;
   couponRepository: CouponRepository;
 
-  constructor (readonly repositoryFactory: RepositoryFactory) {
+  constructor (readonly repositoryFactory: RepositoryFactory, readonly broker: Broker) {
     this.itemRepository = repositoryFactory.createItemRepository();
     this.orderRepository = repositoryFactory.createOrderRepository();
     this.couponRepository = repositoryFactory.createCouponRepository();
@@ -31,6 +33,7 @@ export default class PlaceOrder {
       if (coupon) order.addCoupon(coupon);
     };
     await this.orderRepository.save(order);
+    await this.broker.publish(new OrderPlaced(order));
     const total = order.getTotal();
     const output = new PlaceOrderOutput(order.getCode(), total);
     return output;

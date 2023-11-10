@@ -20,10 +20,10 @@ const PlaceOrderController_1 = __importDefault(require("../controller/PlaceOrder
 const PgPromiseConnectionAdapter_1 = __importDefault(require("../database/PgPromiseConnectionAdapter"));
 const ItemRepositoryDatabase_1 = __importDefault(require("../repository/database/ItemRepositoryDatabase"));
 class RouterConfig {
-    constructor(http, repositoryFactory, orderDAO) {
+    constructor(http, repositoryFactory, orderDAO, broker) {
         http.on("/orders", "post", function (params, body) {
             return __awaiter(this, void 0, void 0, function* () {
-                const placeOrderController = new PlaceOrderController_1.default(repositoryFactory);
+                const placeOrderController = new PlaceOrderController_1.default(repositoryFactory, broker);
                 return placeOrderController.execute(params, body);
             });
         });
