@@ -12,17 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const GetOrderOutput_1 = __importDefault(require("./GetOrderOutput"));
-class GetOrder {
-    constructor(connection) {
-        this.connection = connection;
-    }
-    execute(code) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const [orderData] = yield this.connection.query("select code, total::float from ccca.order where code = $1", [code]);
-            const getOrderOutput = new GetOrderOutput_1.default(orderData.code, orderData.total);
-            return getOrderOutput;
-        });
-    }
-}
-exports.default = GetOrder;
+const PgPromiseConnectionAdapter_1 = __importDefault(require("../../../src/infra/database/PgPromiseConnectionAdapter"));
+test("Should connect to the database", function () {
+    return __awaiter(this, void 0, void 0, function* () {
+        const connection = PgPromiseConnectionAdapter_1.default.getInstance();
+        const itemsData = yield connection.query("select * from ccca.item", []);
+        expect(itemsData).toHaveLength(6);
+    });
+});

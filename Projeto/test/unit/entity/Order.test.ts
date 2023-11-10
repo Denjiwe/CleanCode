@@ -1,7 +1,7 @@
-import Order from "../../src/domain/entity/Order";
-import Item from "../../src/domain/entity/Item";
-import Coupon from "../../src/domain/entity/Coupon";
-import FixedFreightCalculator from "../../src/domain/entity/FixedFreightCalculator";
+import Order from "../../../src/domain/entity/Order";
+import Item from "../../../src/domain/entity/Item";
+import Coupon from "../../../src/domain/entity/Coupon";
+import FixedFreightCalculator from "../../../src/domain/entity/FixedFreightCalculator";
 
 test("Should create an empty order with a valid CPF", function () {
     let cpf = "839.435.452-10";

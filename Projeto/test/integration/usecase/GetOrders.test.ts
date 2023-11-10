@@ -1,8 +1,8 @@
-import GetOrders from "../../src/application/usecase/get_orders/GetOrders";
-import PlaceOrder from "../../src/application/usecase/place_order/PlaceOrder";
-import PgPromiseConnectionAdapter from "../../src/infra/database/PgPromiseConnectionAdapter";
-import DatabaseRepositoryFactory from "../../src/infra/factory/DatabaseRepositoryFactory";
-import OrderRepositoryDatabase from "../../src/infra/repository/database/OrderRepositoryDatabase";
+import GetOrders from "../../../src/application/usecase/get_orders/GetOrders";
+import PlaceOrder from "../../../src/application/usecase/place_order/PlaceOrder";
+import PgPromiseConnectionAdapter from "../../../src/infra/database/PgPromiseConnectionAdapter";
+import DatabaseRepositoryFactory from "../../../src/infra/factory/DatabaseRepositoryFactory";
+import OrderRepositoryDatabase from "../../../src/infra/repository/database/OrderRepositoryDatabase";
 
 let placeOrder: PlaceOrder;
 let getOrders: GetOrders;

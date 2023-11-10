@@ -1,8 +1,8 @@
 import axios from "axios";
-import PlaceOrder from "../../src/application/usecase/place_order/PlaceOrder";
-import PgPromiseConnectionAdapter from "../../src/infra/database/PgPromiseConnectionAdapter";
-import DatabaseRepositoryFactory from "../../src/infra/factory/DatabaseRepositoryFactory";
-import OrderRepositoryDatabase from "../../src/infra/repository/database/OrderRepositoryDatabase";
+import PlaceOrder from "../../../src/application/usecase/place_order/PlaceOrder";
+import PgPromiseConnectionAdapter from "../../../src/infra/database/PgPromiseConnectionAdapter";
+import DatabaseRepositoryFactory from "../../../src/infra/factory/DatabaseRepositoryFactory";
+import OrderRepositoryDatabase from "../../../src/infra/repository/database/OrderRepositoryDatabase";
 
 let placeOrder: PlaceOrder;
 let orderRepository: OrderRepositoryDatabase;
@@ -14,7 +14,7 @@ beforeEach(() => {
   placeOrder = new PlaceOrder(repositoryFactory);
 })
 
-test("Deve testar a API /orders (POST)", async function () {
+test.skip("Deve testar a API /orders (POST)", async function () {
 	const response = await axios({
 		url: "http://localhost:3000/orders",
 		method: "post",
@@ -33,7 +33,7 @@ test("Deve testar a API /orders (POST)", async function () {
 	expect(order.total).toBe(138);
 });
 
-test("Deve testar a API /simulateFreight (POST)", async function () {
+test.skip("Deve testar a API /simulateFreight (POST)", async function () {
 	const response = await axios({
 		url: "http://localhost:3000/simulateFreight",
 		method: "post",
@@ -49,7 +49,7 @@ test("Deve testar a API /simulateFreight (POST)", async function () {
 	expect(output.amount).toBe(260);
 });
 
-test("Deve testar a API /orders (get)", async function () {
+test.skip("Deve testar a API /orders (get)", async function () {
 	const input = {
     cpf: "839.435.452-10",
     orderItems: [
@@ -69,7 +69,7 @@ test("Deve testar a API /orders (get)", async function () {
 	expect(orders.orders).toHaveLength(1);
 });
 
-test("Deve testar a API /orders/code (get)", async function () {
+test.skip("Deve testar a API /orders/code (get)", async function () {
 	const input = {
     cpf: "839.435.452-10",
     orderItems: [

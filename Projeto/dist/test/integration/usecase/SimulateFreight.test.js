@@ -12,11 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const SimulateFreight_1 = __importDefault(require("../../src/application/usecase/simulate_freight/SimulateFreight"));
-const SimulateFreightInput_1 = __importDefault(require("../../src/application/usecase/simulate_freight/SimulateFreightInput"));
-const DefaultFreightCalculator_1 = __importDefault(require("../../src/domain/entity/DefaultFreightCalculator"));
-const PgPromiseConnectionAdapter_1 = __importDefault(require("../../src/infra/database/PgPromiseConnectionAdapter"));
-const ItemRepositoryDatabase_1 = __importDefault(require("../../src/infra/repository/database/ItemRepositoryDatabase"));
+const SimulateFreight_1 = __importDefault(require("../../../src/application/usecase/simulate_freight/SimulateFreight"));
+const SimulateFreightInput_1 = __importDefault(require("../../../src/application/usecase/simulate_freight/SimulateFreightInput"));
+const DefaultFreightCalculator_1 = __importDefault(require("../../../src/domain/entity/DefaultFreightCalculator"));
+const PgPromiseConnectionAdapter_1 = __importDefault(require("../../../src/infra/database/PgPromiseConnectionAdapter"));
+const ItemRepositoryDatabase_1 = __importDefault(require("../../../src/infra/repository/database/ItemRepositoryDatabase"));
 test("Should simulate a freight", function () {
     return __awaiter(this, void 0, void 0, function* () {
         const connection = PgPromiseConnectionAdapter_1.default.getInstance();

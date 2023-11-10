@@ -3,10 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const Order_1 = __importDefault(require("../../src/domain/entity/Order"));
-const Item_1 = __importDefault(require("../../src/domain/entity/Item"));
-const Coupon_1 = __importDefault(require("../../src/domain/entity/Coupon"));
-const FixedFreightCalculator_1 = __importDefault(require("../../src/domain/entity/FixedFreightCalculator"));
+const Order_1 = __importDefault(require("../../../src/domain/entity/Order"));
+const Item_1 = __importDefault(require("../../../src/domain/entity/Item"));
+const Coupon_1 = __importDefault(require("../../../src/domain/entity/Coupon"));
+const FixedFreightCalculator_1 = __importDefault(require("../../../src/domain/entity/FixedFreightCalculator"));
 test("Should create an empty order with a valid CPF", function () {
     let cpf = "839.435.452-10";
     const order = new Order_1.default(cpf);

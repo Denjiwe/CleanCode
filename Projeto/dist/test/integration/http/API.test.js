@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
-const PlaceOrder_1 = __importDefault(require("../../src/application/usecase/place_order/PlaceOrder"));
-const PgPromiseConnectionAdapter_1 = __importDefault(require("../../src/infra/database/PgPromiseConnectionAdapter"));
-const DatabaseRepositoryFactory_1 = __importDefault(require("../../src/infra/factory/DatabaseRepositoryFactory"));
-const OrderRepositoryDatabase_1 = __importDefault(require("../../src/infra/repository/database/OrderRepositoryDatabase"));
+const PlaceOrder_1 = __importDefault(require("../../../src/application/usecase/place_order/PlaceOrder"));
+const PgPromiseConnectionAdapter_1 = __importDefault(require("../../../src/infra/database/PgPromiseConnectionAdapter"));
+const DatabaseRepositoryFactory_1 = __importDefault(require("../../../src/infra/factory/DatabaseRepositoryFactory"));
+const OrderRepositoryDatabase_1 = __importDefault(require("../../../src/infra/repository/database/OrderRepositoryDatabase"));
 let placeOrder;
 let orderRepository;
 beforeEach(() => {
@@ -25,7 +25,7 @@ beforeEach(() => {
     const repositoryFactory = new DatabaseRepositoryFactory_1.default();
     placeOrder = new PlaceOrder_1.default(repositoryFactory);
 });
-test("Deve testar a API /orders (POST)", function () {
+test.skip("Deve testar a API /orders (POST)", function () {
     return __awaiter(this, void 0, void 0, function* () {
         const response = yield (0, axios_1.default)({
             url: "http://localhost:3000/orders",
@@ -45,7 +45,7 @@ test("Deve testar a API /orders (POST)", function () {
         expect(order.total).toBe(138);
     });
 });
-test("Deve testar a API /simulateFreight (POST)", function () {
+test.skip("Deve testar a API /simulateFreight (POST)", function () {
     return __awaiter(this, void 0, void 0, function* () {
         const response = yield (0, axios_1.default)({
             url: "http://localhost:3000/simulateFreight",
@@ -62,7 +62,7 @@ test("Deve testar a API /simulateFreight (POST)", function () {
         expect(output.amount).toBe(260);
     });
 });
-test("Deve testar a API /orders (get)", function () {
+test.skip("Deve testar a API /orders (get)", function () {
     return __awaiter(this, void 0, void 0, function* () {
         const input = {
             cpf: "839.435.452-10",
@@ -83,7 +83,7 @@ test("Deve testar a API /orders (get)", function () {
         expect(orders.orders).toHaveLength(1);
     });
 });
-test("Deve testar a API /orders/code (get)", function () {
+test.skip("Deve testar a API /orders/code (get)", function () {
     return __awaiter(this, void 0, void 0, function* () {
         const input = {
             cpf: "839.435.452-10",

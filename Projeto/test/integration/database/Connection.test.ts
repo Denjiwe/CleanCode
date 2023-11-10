@@ -1,4 +1,4 @@
-import PgPromiseConnectionAdapter from "../../src/infra/database/PgPromiseConnectionAdapter";
+import PgPromiseConnectionAdapter from "../../../src/infra/database/PgPromiseConnectionAdapter";
 
 test("Should connect to the database", async function () {
   const connection = PgPromiseConnectionAdapter.getInstance();
