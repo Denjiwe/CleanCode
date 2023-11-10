@@ -12,8 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const OrderPlacedStockHandler_1 = __importDefault(require("../../../src/application/handler/OrderPlacedStockHandler"));
 const GetStock_1 = __importDefault(require("../../../src/application/usecase/get_stock/GetStock"));
 const PlaceOrder_1 = __importDefault(require("../../../src/application/usecase/place_order/PlaceOrder"));
+const Broker_1 = __importDefault(require("../../../src/infra/broker/Broker"));
 const PgPromiseConnectionAdapter_1 = __importDefault(require("../../../src/infra/database/PgPromiseConnectionAdapter"));
 const DatabaseRepositoryFactory_1 = __importDefault(require("../../../src/infra/factory/DatabaseRepositoryFactory"));
 const OrderRepositoryDatabase_1 = __importDefault(require("../../../src/infra/repository/database/OrderRepositoryDatabase"));
@@ -28,7 +30,9 @@ beforeEach(() => {
     stockEntryRepository = new StockEntryRepositoryDatabase_1.default(connection);
     const repositoryFactory = new DatabaseRepositoryFactory_1.default();
     // const repositoryFactory = new MemoryRepositoryFactory();
-    placeOrder = new PlaceOrder_1.default(repositoryFactory);
+    const broker = new Broker_1.default();
+    broker.register(new OrderPlacedStockHandler_1.default(repositoryFactory));
+    placeOrder = new PlaceOrder_1.default(repositoryFactory, broker);
     getStock = new GetStock_1.default(repositoryFactory);
 });
 test("Should place an order", function () {

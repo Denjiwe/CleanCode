@@ -1,5 +1,7 @@
+import OrderPlacedStockHandler from "../../../src/application/handler/OrderPlacedStockHandler";
 import GetStock from "../../../src/application/usecase/get_stock/GetStock";
 import PlaceOrder from "../../../src/application/usecase/place_order/PlaceOrder";
+import Broker from "../../../src/infra/broker/Broker";
 import PgPromiseConnectionAdapter from "../../../src/infra/database/PgPromiseConnectionAdapter";
 import DatabaseRepositoryFactory from "../../../src/infra/factory/DatabaseRepositoryFactory";
 import MemoryRepositoryFactory from "../../../src/infra/factory/MemoryRepositoryFactory";
@@ -17,7 +19,9 @@ beforeEach(() => {
   stockEntryRepository = new StockEntryRepositoryDatabase(connection);
   const repositoryFactory = new DatabaseRepositoryFactory();
   // const repositoryFactory = new MemoryRepositoryFactory();
-  placeOrder = new PlaceOrder(repositoryFactory);
+  const broker = new Broker();
+  broker.register(new OrderPlacedStockHandler(repositoryFactory));
+  placeOrder = new PlaceOrder(repositoryFactory, broker);
   getStock = new GetStock(repositoryFactory);
 })
 

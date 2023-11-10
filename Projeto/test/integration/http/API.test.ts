@@ -3,6 +3,7 @@ import PlaceOrder from "../../../src/application/usecase/place_order/PlaceOrder"
 import PgPromiseConnectionAdapter from "../../../src/infra/database/PgPromiseConnectionAdapter";
 import DatabaseRepositoryFactory from "../../../src/infra/factory/DatabaseRepositoryFactory";
 import OrderRepositoryDatabase from "../../../src/infra/repository/database/OrderRepositoryDatabase";
+import Broker from "../../../src/infra/broker/Broker";
 
 let placeOrder: PlaceOrder;
 let orderRepository: OrderRepositoryDatabase;
@@ -11,7 +12,8 @@ beforeEach(() => {
   const connection = PgPromiseConnectionAdapter.getInstance();
   orderRepository = new OrderRepositoryDatabase(connection);
   const repositoryFactory = new DatabaseRepositoryFactory();
-  placeOrder = new PlaceOrder(repositoryFactory);
+	const broker = new Broker();
+  placeOrder = new PlaceOrder(repositoryFactory, broker);
 })
 
 test.skip("Deve testar a API /orders (POST)", async function () {

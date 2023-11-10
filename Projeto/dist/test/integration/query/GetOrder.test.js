@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const GetOrder_1 = __importDefault(require("../../../src/application/query/get_order/GetOrder"));
 const PlaceOrder_1 = __importDefault(require("../../../src/application/usecase/place_order/PlaceOrder"));
+const Broker_1 = __importDefault(require("../../../src/infra/broker/Broker"));
 const OrderDAODatabase_1 = __importDefault(require("../../../src/infra/dao/OrderDAODatabase"));
 const PgPromiseConnectionAdapter_1 = __importDefault(require("../../../src/infra/database/PgPromiseConnectionAdapter"));
 const DatabaseRepositoryFactory_1 = __importDefault(require("../../../src/infra/factory/DatabaseRepositoryFactory"));
@@ -26,7 +27,8 @@ beforeEach(() => {
     const orderDAO = new OrderDAODatabase_1.default(connection);
     orderRepository = new OrderRepositoryDatabase_1.default(connection);
     const repositoryFactory = new DatabaseRepositoryFactory_1.default();
-    placeOrder = new PlaceOrder_1.default(repositoryFactory);
+    const broker = new Broker_1.default();
+    placeOrder = new PlaceOrder_1.default(repositoryFactory, broker);
     getOrder = new GetOrder_1.default(orderDAO);
 });
 test("Should get an order by code", function () {

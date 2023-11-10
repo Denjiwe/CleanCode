@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const GetOrders_1 = __importDefault(require("../../../src/application/usecase/get_orders/GetOrders"));
 const PlaceOrder_1 = __importDefault(require("../../../src/application/usecase/place_order/PlaceOrder"));
+const Broker_1 = __importDefault(require("../../../src/infra/broker/Broker"));
 const PgPromiseConnectionAdapter_1 = __importDefault(require("../../../src/infra/database/PgPromiseConnectionAdapter"));
 const DatabaseRepositoryFactory_1 = __importDefault(require("../../../src/infra/factory/DatabaseRepositoryFactory"));
 const OrderRepositoryDatabase_1 = __importDefault(require("../../../src/infra/repository/database/OrderRepositoryDatabase"));
@@ -24,7 +25,8 @@ beforeEach(() => {
     const connection = PgPromiseConnectionAdapter_1.default.getInstance();
     orderRepository = new OrderRepositoryDatabase_1.default(connection);
     const repositoryFactory = new DatabaseRepositoryFactory_1.default();
-    placeOrder = new PlaceOrder_1.default(repositoryFactory);
+    const broker = new Broker_1.default();
+    placeOrder = new PlaceOrder_1.default(repositoryFactory, broker);
     getOrders = new GetOrders_1.default(repositoryFactory);
 });
 test("Should get all orders", function () {

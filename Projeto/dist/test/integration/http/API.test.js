@@ -17,13 +17,15 @@ const PlaceOrder_1 = __importDefault(require("../../../src/application/usecase/p
 const PgPromiseConnectionAdapter_1 = __importDefault(require("../../../src/infra/database/PgPromiseConnectionAdapter"));
 const DatabaseRepositoryFactory_1 = __importDefault(require("../../../src/infra/factory/DatabaseRepositoryFactory"));
 const OrderRepositoryDatabase_1 = __importDefault(require("../../../src/infra/repository/database/OrderRepositoryDatabase"));
+const Broker_1 = __importDefault(require("../../../src/infra/broker/Broker"));
 let placeOrder;
 let orderRepository;
 beforeEach(() => {
     const connection = PgPromiseConnectionAdapter_1.default.getInstance();
     orderRepository = new OrderRepositoryDatabase_1.default(connection);
     const repositoryFactory = new DatabaseRepositoryFactory_1.default();
-    placeOrder = new PlaceOrder_1.default(repositoryFactory);
+    const broker = new Broker_1.default();
+    placeOrder = new PlaceOrder_1.default(repositoryFactory, broker);
 });
 test.skip("Deve testar a API /orders (POST)", function () {
     return __awaiter(this, void 0, void 0, function* () {

@@ -6,20 +6,18 @@ import PlaceOrderInput from "./PlaceOrderInput";
 import PlaceOrderOutput from "./PlaceOrderOutput";
 import DefaultFreightCalculator from "../../../domain/entity/DefaultFreightCalculator";
 import RepositoryFactory from "../../../domain/factory/RepositoryFactory";
-import StockEntry from "../../../domain/entity/StockEntry";
-import StockEntryRepository from "../../../domain/repository/StockEntryRepository";
+import OrderPlaced from "../../../domain/event/OrderPlaced";
+import Broker from "../../../infra/broker/Broker";
 
 export default class PlaceOrder {
   itemRepository: ItemRepository;
   orderRepository: OrderRepository;
   couponRepository: CouponRepository;
-  stockEntryRepository: StockEntryRepository;
 
-  constructor (readonly repositoryFactory: RepositoryFactory) {
+  constructor (readonly repositoryFactory: RepositoryFactory, readonly broker: Broker) {
     this.itemRepository = repositoryFactory.createItemRepository();
     this.orderRepository = repositoryFactory.createOrderRepository();
     this.couponRepository = repositoryFactory.createCouponRepository();
-    this.stockEntryRepository = repositoryFactory.createStockEntryRepository();
   }
 
   async execute (input: PlaceOrderInput): Promise<PlaceOrderOutput> {
@@ -35,9 +33,7 @@ export default class PlaceOrder {
       if (coupon) order.addCoupon(coupon);
     };
     await this.orderRepository.save(order);
-    for (const orderItem of input.orderItems) {
-      this.stockEntryRepository.save(new StockEntry(orderItem.idItem, "out", orderItem.quantity, order.date));
-    }
+    await this.broker.publish(new OrderPlaced(order));
     const total = order.getTotal();
     const output = new PlaceOrderOutput(order.getCode(), total);
     return output;
